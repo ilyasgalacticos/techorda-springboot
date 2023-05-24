@@ -2,8 +2,38 @@
 <html lang="en"
       xmlns:th = "http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
-    <div layout:fragment="siteContent">
-        <div class="row">
+    <div layout:fragment="siteContent" class="pb-5">
+        <div class="row" th:if = "${muzyka!=null}">
+            <div class="col-6">
+                <table class="table">
+                    <tr th:each="genre : ${genres}">
+                        <form th:action="@{'/assign-genre'}" method="post">
+                            <input type="hidden" name="music_id" th:value="${muzyka.id}">
+                            <input type="hidden" name="genre_id" th:value="${genre.id}">
+                            <td th:text="${genre.name + ' / ' + genre.code}"></td>
+                            <td style = "width: 10%;">
+                                <button class="btn btn-success btn-sm"> >>> </button>
+                            </td>
+                        </form>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <table class="table">
+                    <tr th:each="genre : ${muzyka.genres}">
+                        <form th:action="@{'/unassign-genre'}" method="post">
+                            <td style = "width: 10%;">
+                                <button class="btn btn-danger btn-sm"> <<< </button>
+                            </td>
+                            <input type="hidden" name="music_id" th:value="${muzyka.id}">
+                            <input type="hidden" name="genre_id" th:value="${genre.id}">
+                            <td th:text="${genre.name + ' / ' + genre.code}"></td>
+                        </form>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-5">
             <div class="col-8 mx-auto">
                 <form action="/save-music" method="post" th:if = "${muzyka!=null}">
                     <input type="hidden" name="id" th:value="${muzyka.id}">

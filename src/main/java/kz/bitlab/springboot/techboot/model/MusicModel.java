@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "t_musics")
 @Getter
@@ -23,6 +25,9 @@ public class MusicModel {
 
     @ManyToOne
     private AuthorModel authorModel;
+
+    @ManyToMany
+    private List<GenreModel> genres;
 
     @PrePersist
     public void checkForNegativeDuration() {
